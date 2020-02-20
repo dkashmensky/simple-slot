@@ -1,5 +1,5 @@
 /*jshint esversion: 6 */
-let uid = '1212';
+let uid = getUid();
 let globalBets;
 let globalBalance;
 
@@ -12,6 +12,7 @@ document.querySelector('.bet__incr > button').addEventListener('click', betIncr)
 document.querySelector('.controls__spin > button').addEventListener('click', spin);
 
 function init() {
+  disableButtons();
   fetch('https://game-server.kovalevskyi.net/init?uid=' + uid)
     .then(response => response.json())
     .then(json => render(json))
@@ -33,13 +34,15 @@ function render(data) {
 
     globalBalance = data.balance;
 
-    document.querySelector('.balance__current > span:first-child').innerHTML = data.balance;
+    document.querySelector('.balance__current > div > span:first-child').innerHTML = data.balance;
     document.querySelector('.bet__current > span:first-child').innerHTML = data.last_bet;
 
     if(data.hasOwnProperty('win') && data['win']) {
       document.querySelector('.controls__win').innerHTML = `Your win is ${data.win}`;
+    } else if(data.hasOwnProperty('bets') && data['bets']) {
+      document.querySelector('.controls__win').innerHTML = `Press SPIN to start`;
     } else {
-      document.querySelector('.controls__win').innerHTML = '';
+      document.querySelector('.controls__win').innerHTML = `Your win is 0. Try again!`;
     }
 
     if(data.rolls.length) {
@@ -49,6 +52,7 @@ function render(data) {
     }
 
     enableButtons();
+    document.querySelector('.loader').style.display = 'none';
   } else {
     throwError('Empty JSON');
   }
@@ -66,14 +70,6 @@ function renderReel(reel) {
 
     node.innerHTML = reelResult;
   });
-}
-
-function betDecr() {
-  betChange('decr');
-}
-
-function betIncr() {
-  betChange('incr');
 }
 
 function betChange(action) {
@@ -112,6 +108,7 @@ function spin() {
     updateBalance(globalBalance - currentBet);
     disableButtons();
     startSpin();
+    document.querySelector('.controls__win').innerHTML = '';
     fetch(`https://game-server.kovalevskyi.net/spin?uid=${uid}&bet=${currentBet}`)
       .then(response => response.json())
       .then(json => render(json))
@@ -122,6 +119,14 @@ function spin() {
 }
 
 // Utility functions
+function betDecr() {
+  betChange('decr');
+}
+
+function betIncr() {
+  betChange('incr');
+}
+
 function disableButtons() {
   document.querySelectorAll('button').forEach(node => {
     node.disabled = true;
@@ -141,7 +146,7 @@ function getCurrentBet() {
 function startSpin() {
   spinner = setInterval(() => {
     renderReel(getRandomReel());
-  }, 300);
+  }, 200);
 }
 
 function stopSpin() {
@@ -166,5 +171,17 @@ function throwError(err) {
 }
 
 function updateBalance(bet) {
-  document.querySelector('.balance__current > span:first-child').innerHTML = bet;
+  document.querySelector('.balance__current > div > span:first-child').innerHTML = bet;
+}
+
+function getUid() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const userId = urlParams.get('uid');
+
+  if(userId) {
+    return userId;
+  } else {
+    // if there is no user parameter generate random user ID
+    return Math.floor(Math.random() * 9999) + 1;
+  }
 }

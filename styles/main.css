@@ -8,20 +8,81 @@ main {
   width: 100%;
 }
 
+button {
+  background: radial-gradient(circle, rgba(60,157,26,1) 0%, rgba(115,172,88,1) 100%);
+  border: none;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+button:hover {
+  background: radial-gradient(circle, rgba(76,201,32,1) 0%, rgba(122,184,92,1) 100%);
+}
+
+button:disabled {
+  filter: grayscale();
+}
+
+.loader {
+  align-items: center;
+  background-image: url(../img/bg.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  position: fixed;
+  width: 100vw;
+  z-index: 9999;
+}
+
+.loader div {
+  color: #fff;
+  font-size: 90px;
+}
+
 .wrapper {
+  background-image: url('../img/bg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   border: 2px solid #000;
   width: 900px;
 }
 
 .balance,
 .controls {
+  background: linear-gradient(0deg, rgba(217,214,22,1) 0%, rgba(251,176,35,1) 100%);
   box-sizing: border-box;
   height: 60px;
   padding: 20px;
 }
 
 .balance {
+  align-items: center;
   border-bottom: 2px solid #000;
+  display: flex;
+}
+
+.balance__current {
+  background: #000;
+  border-radius: 15px;
+  color: wheat;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  width: 100px;
+}
+
+.balance__current::after {
+    background-image: url(../img/coin.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: "";
+    height: 16px;
+    width: 16px;
 }
 
 .reel {
@@ -31,6 +92,7 @@ main {
 }
 
 .reel__container {
+  background: linear-gradient(0deg, rgba(217,214,22,1) 0%, rgba(251,176,35,1) 100%);
   border: 2px solid #000;
   display: flex;
   flex-direction: row;
@@ -64,4 +126,28 @@ main {
 .controls__bet {
   align-items: center;
   display: flex;
+}
+
+.controls__spin button {
+  border-radius: 15px;
+  padding: 5px 40px;
+}
+
+.controls__win {
+  color: seagreen;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.bet__current {
+  margin: 0 20px;
+}
+
+.bet__decr button,
+.bet__incr button {
+  align-items: center;
+  display: flex;
+  height: 28px;
+  justify-content: center;
+  width: 28px;
 }
