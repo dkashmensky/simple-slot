@@ -1,0 +1,67 @@
+@import "reset.css";
+
+main {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 100%;
+}
+
+.wrapper {
+  border: 2px solid #000;
+  width: 900px;
+}
+
+.balance,
+.controls {
+  box-sizing: border-box;
+  height: 60px;
+  padding: 20px;
+}
+
+.balance {
+  border-bottom: 2px solid #000;
+}
+
+.reel {
+  height: 400px;
+  margin: 50px auto;
+  width: 400px;
+}
+
+.reel__container {
+  border: 2px solid #000;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+}
+
+.reel__row {
+  display: flex;
+  flex-direction: column;
+  width: 33.3%;
+}
+
+.reel__row > div {
+  align-items: center;
+  border: 2px solid #000;
+  display: flex;
+  font-size: 100px;
+  height: 33.3%;
+  justify-content: center;
+}
+
+.controls {
+  align-items: center;
+  border-top: 2px solid #000;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.controls__bet {
+  align-items: center;
+  display: flex;
+}
